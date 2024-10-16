@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis Results</title>
+    <link rel="stylesheet" href="/static/styles1.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Resume Analysis Results</h1>
+
+        <div class="result-section">
+            <h2>Total Score: {{ total_score | round(2) }}</h2>
+
+            <h3>Score Breakdown</h3>
+            <ul>
+                <li><strong>Keyword Score:</strong> {{ score_details['keyword_score'] | round(2) }}</li>
+                <li><strong>Experience Score:</strong> {{ score_details['experience_score'] | round(2) }}</li>
+                <li><strong>Education Score:</strong> {{ score_details['education_score'] | round(2) }}</li>
+            </ul>
+        </div>
+
+        <div class="result-section">
+            <h3>Validity Check</h3>
+            <p><strong>Conflicting Details:</strong> 
+                {% if validity_result['conflicting_details'] %}
+                    <ul>
+                    {% for conflict in validity_result['conflicting_details'] %}
+                        <li>{{ conflict[0] }} - {{ conflict[1] }} conflicts with {{ conflict[2] }} - {{ conflict[3] }}</li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    No conflicts found.
+                {% endif %}
+            </p>
+            
+            <p><strong>Overused Expressions:</strong>
+                {% if validity_result['overused_expressions'] %}
+                    <ul>
+                    {% for expr in validity_result['overused_expressions'] %}
+                        <li>{{ expr }}</li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    No overused expressions found.
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="back-btn">
+            <a href="/">Go back to upload another resume</a>
+        </div>
+    </div>
+</body>
+</html>

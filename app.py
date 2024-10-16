@@ -24,30 +24,32 @@ def analyze():
     skills = request.form['skills']
     resume = request.files['resume']
 
-    # Save the uploaded resume
+    
     resume_path = os.path.join(app.config['UPLOAD_FOLDER'], resume.filename)
     resume.save(resume_path)
 
-    # Extract text from resume
+   
     resume_text = extract_text(resume_path)
 
-    # Dynamic overused expressions based on resume content
+ 
     overused_expressions = detect_overused_phrases(resume_text)
 
-    # Parse job keywords from form input
+   
     job_keywords = [skill.strip().lower() for skill in skills.split(",")]
-    required_experience_years = 5  # Could be passed from frontend
-    required_degree = "Bachelor"   # Could be passed from frontend
+    required_experience_years = 5 
+    required_degree = "Bachelor"   
 
-    existing_cvs = []  # For now, this is empty. Add past CVs to compare if needed.
+    existing_cvs = []  
 
-    # Perform resume analysis
-    result = {
-        "total_score": calculate_total_score(resume_text, job_keywords, required_experience_years, required_degree),
-        "validity_result": check_validity(resume_text, existing_cvs, overused_expressions)
-    }
+    
+    total_score, score_details = calculate_total_score(resume_text, job_keywords, required_experience_years, required_degree)
+    validity_result = check_validity(resume_text, existing_cvs, overused_expressions)
 
-    return f"Analysis Results: {result}"
+    
+    return render_template('results.html', 
+                           total_score=total_score, 
+                           score_details=score_details, 
+                           validity_result=validity_result)
 
 if __name__ == '__main__':
     app.run(debug=True)
