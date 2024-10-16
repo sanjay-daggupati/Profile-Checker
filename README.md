@@ -10,7 +10,7 @@
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/MdSadiqMd/profile-checker.git
+git clone https://github.com/sanjay-daggupati/Profile-Checker.git
 ```
 
 ### 2. Create a Virtual Environment
